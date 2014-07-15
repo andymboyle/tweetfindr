@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TweetFindr</title>
+
+    <!-- Bootstrap, but get these specific ones loaded locally -->
+    <link href="{{ STATIC_URL }}/css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{{ STATIC_URL }}/css/styles.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body data-spy="scroll" data-offset="0" data-target="#navigation">
+    <!-- Fixed navbar -->
+    <div id="navigation" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><b>TweetFindr</b></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#home" class="smothscroll">Home</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <section id="home" name="home"></section>
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-12">
+                    <h1><b>TweetFindr</b> -- Find Some Tweets!</h1>
+                    <h3>Please pick a user ID.</h3>
+                    <br>
+                </div>
+                <div class="col-lg-6">
+                    {% for account in accounts %}
+                    <h2><a href="/#/account/{{ account.twitter_id }}">{{ account.twitter_id }}</a></h2>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> <!--/ .container -->
+    </div><!--/ #headerwrap -->
+    <div id="append-tweets"></div>
+    <!-- Error modal in case the API has some issues -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Oops! We had an error.</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="error-message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Loading icon -->
+    <div id="loading"></div>
+    <!-- Footer -->
+    <div id="c">
+        <div class="container">
+            <p>This is an <a href="http://www.twitter.com/andymboyle">Andy Boyle</a> project.</p>
+        </div>
+    </div>
+    <script id="tweetTemplate" type="text/template">
+        <!-- Template for each tweet-->
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 tweet-img">
+              <img src='<%= avatar_img %>'>
+            </div>
+            <div class="col-lg-7 tweet-text">
+              <h4><%= text %></h4>
+              <p class="lead"><strong><%= username %>,</strong> <a href="http://www.twitter.com/<%= username %>/status/<%= tweet_id %>" target="_blank"><%= moment.unix(time_epoch_local).subtract(5, 'hours').fromNow() %></a> <i data-toggle="modal" data-target="<%= tweet_id %>" class="fa fa-reply fa-4 tweet-reply"></i></p>
+            </div>
+        </div>
+        <hr>
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
+    <script src="{{ STATIC_URL }}/js/tweetfindr.js"></script>
+</body>
+</html>
